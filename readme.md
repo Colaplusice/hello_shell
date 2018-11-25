@@ -1,5 +1,4 @@
 # shell学习
-# shell学习
 
 ## 常用命令
 
@@ -12,11 +11,9 @@
 * cat -n 显示行号
 * cat myfile|cat -n >myfile
 
-* ```
 $? 表示最后一条命令的执行状态 检查命令是否正确执行
 -eq 判断命令是否相等  如果不相等 输出 错误信息
 [ $? -eq 0 ] && echo Created DB || echo DB already exist
-```
 
 * cat > 加信息加入         cat>> 追加写入
 
@@ -62,7 +59,7 @@ echo $db_host
 
 ##### 调用函数
 
-```w
+```
 fjl(){
 echo 'fjl233'
 }
@@ -70,9 +67,8 @@ fjl
 ```
 
 判断上条命令是否执行成功
-
 ```
- if [ $? -eq 0 ];
+if [ $? -eq 0 ];
 
 then
 echo "$CMD executed successfully"
@@ -82,7 +78,7 @@ fi
  terminated unsuccessfully
 ```
 
-##### EOF
+### EOF
 
 ```shell
 <<EOF ＃start
@@ -95,9 +91,9 @@ mac 加载环境变量 顺序
 
 /etc/profile   /etc/paths  	~/.bash_profile	 ~/.bash_login	 ~/.profile	 ~/.bashrc
 
-##### if
+#### if
 
-* ```
+ ```
 if [ ! $dir_proto_path ] ; then
 echo "输入的参数不正确"
 error_message
@@ -107,7 +103,8 @@ fi
 
 case
 
-```shell
+```
+shell
 case 值 in
 模式1)
     command1
@@ -127,22 +124,22 @@ case 值 in
 esac
 ```
 
-##### for
+#### for
 
-```shell
+```
 for loop in 1 2 3 4 5
 do
     echo "The value is: $loop"
 done
 ```
 
-```shell
+```
     array_name=(value1 ... valuen)
 ```
 
 #### 数组
 
-```shell
+```
 if [[ ! "$array" ]]; then
     array[0]="."
     echo "第一个元素为: ${array[0]}"
@@ -152,19 +149,16 @@ for proto_path in ${array[@]}
 ```
 
 ##### 关系运算符
--eq 检查两个数是否相等
 
--ne 检查两个数是否不相等
-
--gt 左边数是否大于右边
-
--lt 左边数是否小于右边
-
--ge 左边数是否大于等于右边
-
--le 检测左边的数是否小于等于右边的，如果是，则返回 true。
+- -eq 检查两个数是否相等,-ne 检查两个数是否不相等
+  
+- -gt 左边数是否大于右边
+- -lt 左边数是否小于右边
+- -ge 左边数是否大于等于 右边
+- -le 检测左边的数是否小于等于右边的，如果是，则返回 true。
 
 ##### 布尔运算符
+
 -o 或运算
 
 -a 与运算
@@ -184,9 +178,11 @@ for proto_path in ${array[@]}
 if [$a] 字符串是否为空
 
 ### shift字段
+
 让参数 依次向左移动一个位置，让脚本能够以$1来访问到每个参数
 
-#### zsh和bash切换
+### zsh和bash切换
+
 chsh -s /bin/bash
 
 ## Demo
@@ -375,8 +371,9 @@ grep main . -r -exclude-dir CVS  排除路径
 —A 打印匹配结果之后的行  seq 10 -1 1 |grep 5 -A 3
 -B 打印匹配结果之前的行  seq 10 -1 1 |grep 5 -B 3
 
+## 管道
 
-
+docker ps |grep mq |awk '{print $1}' 将一的结果传递2 2的结果传到3
 
 ## seq
 
@@ -388,37 +385,29 @@ seq -f "1/%02g/2016" 12  打印2016年每一天
 seq -f "%e" 1 0.5 3   1-3 间隔 0.5
 seq -f "%e" 1 0.5 3
 
-用作循环
+- 用作循环
 for i in $(seq 10)
 do
 echo "hello world"
 done
-改变输出的间隔方式  seq -s , 10
+- 改变输出的间隔方式  seq -s , 10
 
-所有的数长度一致，不够补0  seq -w 10000
-
-逆序输出  seq 10 -1 1
-
-
-
-
-
+- 所有的数长度一致，不够补0  seq -w 10000
+- 逆序输出  seq 10 -1 1
 
 ### 常用 命令
 ~= 判断子字符串的包含关系
 
-1. ```shell
+ ```
  if [[ "$a3" =~ "$a1" ]]; then
    echo "$是a1是$a3的子串！"
    else
    echo "$不是a1不是$a3的子串！"
-``````
-
 ```
 
 ## leetcode
-打印文件第10行
 
+打印文件第10行
 ```
 seq 10 | tail -n +10
 sed -n '10p' $play_1
@@ -428,12 +417,8 @@ tail -n +10 $play_1  | head -n 1
 打印除了前M行外的所有的行
 
 tail -n  +m+1
-
 打印前m行  head -n m
-
 最后M行  tail -n m
-
-```
 
 ## mysql shell
 
@@ -447,12 +432,8 @@ mysqldump -uroot -pnewpass -h 127.0.0.1 -P 3305 hello_flask > abc.sql
 ```
 
 睡两秒
-
 sleep2
-
-写入环境变量 
-
-export LOCAL_HOST='127.0.0.1' 
+写入环境变量  export LOCAL_HOST='127.0.0.1' 
 
 ### 高阶shell
 
@@ -462,7 +443,7 @@ lsof -i:5000 | awk '{print $2}'
 
 杀死某个端口的进程
 
-kill `  lsof -i:5000 | awk '{print $2}' `   
+kill   lsof -i:5000 | awk '{print $2}'  
 
 
 
@@ -505,12 +486,15 @@ sed -i ‘’ ’s/properties/propertysd/g’  a.txt
 find . -name "-e" -exec rm '{}' \;
 
 # 替换所有文件的某个文本
+
 find . -type f -name '*.csv' -exec sed -i '' s/91./92./ {} +
-#### 第二种，未实验
+
+### 第二种，未实验
+
 find . -name '*.txt' -print0 | xargs -0 sed -i "" "s/form/forms/g"
 
-
 ## 替换pipenv为pip
+
 sed 's/pipenv/pip/g' cat .gitlab-ci.yml |grep pip   
 
 
@@ -521,19 +505,40 @@ http://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4}
 ip正则
 
 ##  xargs 的使用
+
+echo 'one two three' | xargs mkdir
 xargs - build and execute command lines from standard input
 xargs -0 rm  当以文件名作为命令行参数时，建议0作为文件名终结符。
+多重管道
 
+docker ps |grep mq |awk '{print $1}' | xargs docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+### 和用户交互
+
+read -p " What folder should be backed up: " folder  读取存入folder变量
 
 
 
 ### chown 更改文件的用户或者组
+
 chown root /file
    change the owner of /u to root
 chown root:staff/u   change its group to staff
 
 chown -hR root/u  change the owner of /u and subfile to root      更改/u 下的所有文件的归属权
 
+## 骚操作
 
+### 批量替换文件格式，后缀，重命名
 
+将所有txt后缀结尾的文件，替换为png结尾
+for f in *.txt;
+    do mv "$f" "${f/.txt/.png}";
+done
+"${f/_*_/_}" is an application of bash parameter expansion: the (first) substring matching pattern _*_ is replaced with literal _, effectively cutting the middle token from the name.
+
+## vscode插件
+
+brew install shfmt
+shift+option+f
 
