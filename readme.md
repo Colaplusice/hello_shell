@@ -497,11 +497,8 @@ find . -name '*.txt' -print0 | xargs -0 sed -i "" "s/form/forms/g"
 
 sed 's/pipenv/pip/g' cat .gitlab-ci.yml |grep pip   
 
-
 url正则
 http://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4}
-
-
 ip正则
 
 ##  xargs 的使用
