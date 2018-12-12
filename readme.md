@@ -236,6 +236,7 @@ echo Password read.
 ```
 
 ## 文件
+
 文件夹不存在则创建文件夹
 
 ```shell
@@ -251,7 +252,7 @@ data="/"
 ls $data
 ```
 
-#### 找出文件中包含proto的文件
+### 找出文件中包含proto的文件
 
 ```shell
 name=$1
@@ -268,6 +269,7 @@ fi
 ```
 
 #### linux 修改文件夹读写权限
+
 查看文件的详细信息 ls- l xxx.xx
 
 ```shell
@@ -284,8 +286,6 @@ x 执行 1
 
 ## 参数
 
-#### $ 参数
-
 ```shell
  $0是脚本名称。$ 1是第一个参数。 $n是第n个参数。
  $# 参数的个数   $? last_command successful   $@以列表形式返回参数
@@ -293,12 +293,11 @@ x 执行 1
  迭代遍历参数 $$脚本当前运行的id,
  $!  最后一个发生后台运行的程序的进程id
  $-shell 当前的使用选项
- 
 ```
 
 将参数简化为数组: array=($@)
 
-#### 类型判断
+### 类型判断
 
 ```shell
 -x 是否具有可执行权限
@@ -328,18 +327,34 @@ x 执行 1
 -z string length is zero.  
 ```
 
-输入:
+输入: 标准输入:0  标准输出:1  标准错误:2
 
-```
-标准输入:0  标准输出:1  标准错误:2
-```
+## 时间和日期
 
-## 输出date 日期
-date +"%Y_%m_%d_%H%M%S"
+-  输出date 日期 :date +"%Y_%m_%d_%H%M%S"
 
 ### 报错处理
 
-## 字符串
+## 字符和文本
+
+- 统计行数 wc -l file
+- 统计单词数  wc -w file
+- 统计字符数 wc -c file
+- wc  会打印出  行数  单词   字符数
+- wc file -L  最长一行的行数
+
+head 读取文件的起始部分 
+tail 读取末尾版本
+head a.txt 前10行
+
+### cut
+
+cut -c2-5 range_fields.txt 打印第二个到第五个字符
+cut -c -2 rang_field.txt  打印前2个字符
+cut -b  以字节来计数
+
+
+
 
 ### grep 正则匹配
 
@@ -353,13 +368,17 @@ grep pattern filename1 filename2 多个文件中匹配
 -v 打印不匹配的所有行
 -c 匹配到的文本行数
 统计文本匹配的数量
+
 ### echo -e “1 2 3 4\nhello\n5 6” | egrep -o “[0-9]” | wc -l
+
 -n 统计匹配到的字符串所在的行号
 -b 出现的偏移即出现在这行的第几个位置
 -l 匹配 pattern 所在的文件
 -L 相反，列出不匹配的文件
 递归搜索文件 
+
 ### $ grep “text” . -R -n
+
 -i 忽略大小写
 -e 指定多个匹配模式  echo this is a line of text | grep -o -e “this” -e “line”
 -f 指定多个匹配模式，从文件中加载
@@ -370,6 +389,8 @@ grep main . -r -exclude-dir CVS  排除路径
 -q 静默输出，如果匹配成功输出1否则输出0
 —A 打印匹配结果之后的行  seq 10 -1 1 |grep 5 -A 3
 -B 打印匹配结果之前的行  seq 10 -1 1 |grep 5 -B 3
+-R 递归搜索
+-n 
 
 ## 管道
 
@@ -391,11 +412,11 @@ do
 echo "hello world"
 done
 - 改变输出的间隔方式  seq -s , 10
-
 - 所有的数长度一致，不够补0  seq -w 10000
 - 逆序输出  seq 10 -1 1
 
 ### 常用 命令
+
 ~= 判断子字符串的包含关系
 
  ```
@@ -404,7 +425,7 @@ done
    else
    echo "$不是a1不是$a3的子串！"
 ```
-
+ 
 ## leetcode
 
 打印文件第10行
@@ -469,23 +490,37 @@ os X find 加name
 
 find . -name "*-e" -exec rm '{}' +
 
-## 文本内容替换
+## sed进行文本内容替换
+
+- sed -i 会替换文本文件内容
+- 默认只替换首次匹配到的内容， g为后缀则会替换所有匹配到的内容  2g 替换两次 3g 替换三次
+- sed会将s之后的第一个字符串作为分隔符 所以可以指定分隔符 类似于: sed 's|text|replace|g'
+  
 sed 's/ [^.]mobile phones[^.]\.//g' sentence.txt 
+正确的； sed -i ‘’ ’s/properties/propertysd/g’  a.txt  (mac 要加''?)
+ s/substitution_ pattern/replacement_string/g 。
 
-正确的；
+### sed+正则
 
-sed -i ‘’ ’s/properties/propertysd/g’  a.txt
+删除空行: sed '/^$/d' file
+替换数据
+sed -i 's/\b[0-9]\{3\}\b/NUMBER/g' sed_data.txt
+将每个字符用[]扩起来，&代表之前匹配到的字符串
+echo this is an example | sed 's/\w\+/[&]/g' (linux上才有用)
+echo seven EIGHT | sed 's/\([a-z]\+\) \([A-Z]\+\)/\2 \1/' 逆序输出
+sed管道  echo abc | sed 's/a/A/' | sed 's/c/C/'
+
+sed
 
 
 
-原理
-### s/substitution_ pattern/replacement_string/g 。
+
 [^.]*代表任意文本
 
 删除 -e 结尾的文件
 find . -name "-e" -exec rm '{}' \;
 
-# 替换所有文件的某个文本
+## 替换所有文件的某个文本
 
 find . -type f -name '*.csv' -exec sed -i '' s/91./92./ {} +
 
@@ -501,7 +536,7 @@ url正则
 http://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4}
 ip正则
 
-##  xargs 的使用
+## xargs 的使用
 
 echo 'one two three' | xargs mkdir
 xargs - build and execute command lines from standard input
@@ -539,3 +574,7 @@ done
 brew install shfmt
 shift+option+f
 
+## 视频和图像处理
+
+将mp4的音频部分提取为mp3
+ffmpeg -i FILE.mp4 -acodec libmp3lame OUTPUTFILE.mp3
