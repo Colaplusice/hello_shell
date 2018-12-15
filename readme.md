@@ -124,7 +124,7 @@ case 值 in
 esac
 ```
 
-#### for
+## for
 
 ```
 for loop in 1 2 3 4 5
@@ -132,12 +132,18 @@ do
     echo "The value is: $loop"
 done
 ```
+遍历搜索
+for i in $(kubectl get pod $*)
+    do
+    echo $i
+done
+
 
 ```
     array_name=(value1 ... valuen)
 ```
 
-#### 数组
+### 数组
 
 ```
 if [[ ! "$array" ]]; then
@@ -148,7 +154,7 @@ for proto_path in ${array[@]}
 
 ```
 
-##### 关系运算符
+#### 关系运算符
 
 - -eq 检查两个数是否相等,-ne 检查两个数是否不相等
   
@@ -337,7 +343,18 @@ x 执行 1
 
 ## 字符和文本
 
+字符split: 
+s='one_two_three_four_five'
+A="$(cut -d'_' -f2 <<<"$s")" result: two
+A="$(cut -d'_' -f2- <<<"$s") :two_three_four_five
+
+判断两字符是否相等:
+
+12
+
+
 - 统计行数 wc -l file
+- 
 - 统计单词数  wc -w file
 - 统计字符数 wc -c file
 - wc  会打印出  行数  单词   字符数
@@ -352,9 +369,6 @@ head a.txt 前10行
 cut -c2-5 range_fields.txt 打印第二个到第五个字符
 cut -c -2 rang_field.txt  打印前2个字符
 cut -b  以字节来计数
-
-
-
 
 ### grep 正则匹配
 
@@ -415,6 +429,10 @@ done
 - 所有的数长度一致，不够补0  seq -w 10000
 - 逆序输出  seq 10 -1 1
 
+## paste
+
+paste file1.txt file2.txt -d ","  将三个文件的字符并起来
+
 ### 常用 命令
 
 ~= 判断子字符串的包含关系
@@ -425,7 +443,8 @@ done
    else
    echo "$不是a1不是$a3的子串！"
 ```
- 
+
+
 ## leetcode
 
 打印文件第10行
@@ -459,21 +478,25 @@ sleep2
 ### 高阶shell
 
 根据端口号打印出pid 
-
 lsof -i:5000 | awk '{print $2}'
-
 杀死某个端口的进程
-
 kill   lsof -i:5000 | awk '{print $2}'  
-
-
 
 ### awk
 
+1. 首先执行begin {command}中的语句
+2. 然后从文件或者stdin中读取一行，如果能够匹配pattern，执行随后的commands语句
+3. 读至输入流末尾，执行END {commands}语句
+4. awk 'NR==M, NR==N' filename 打印从M行到N行间的文本
+5. seq 100 | awk 'NR==4,NR==6' 打印4到6间的数据
+
+awk的脚本结构如下
+awk 'BEGIN{print "start"} pattern {command} END {print "end"}' file
+
 awk '{print $1 $4}' a.txt    打印文件每行 1，4 项
-
+awk 'BEGIN {i=0} {i++}END {print i}' filename  输出文件行数
 awk -Fe  '{print $1 $2}' a.txt   用e来分割
-
+echo "12|23|11" | awk '{split($0,a,"|"); print a[3],a[2],a[1]}' 分割匹配到的字符
 
 kubectl get pods |grep fenneyes| awk '{print $1}'
 匹配正则:
@@ -499,6 +522,7 @@ find . -name "*-e" -exec rm '{}' +
 sed 's/ [^.]mobile phones[^.]\.//g' sentence.txt 
 正确的； sed -i ‘’ ’s/properties/propertysd/g’  a.txt  (mac 要加''?)
  s/substitution_ pattern/replacement_string/g 。
+ 
 
 ### sed+正则
 
@@ -509,11 +533,7 @@ sed -i 's/\b[0-9]\{3\}\b/NUMBER/g' sed_data.txt
 echo this is an example | sed 's/\w\+/[&]/g' (linux上才有用)
 echo seven EIGHT | sed 's/\([a-z]\+\) \([A-Z]\+\)/\2 \1/' 逆序输出
 sed管道  echo abc | sed 's/a/A/' | sed 's/c/C/'
-
 sed
-
-
-
 
 [^.]*代表任意文本
 
@@ -532,9 +552,14 @@ find . -name '*.txt' -print0 | xargs -0 sed -i "" "s/form/forms/g"
 
 sed 's/pipenv/pip/g' cat .gitlab-ci.yml |grep pip   
 
+## 正则
+
 url正则
 http://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,4}
 ip正则
+
+邮箱正则
+[A-Za-z0-9._]+@[A-Za-z0-9.]+\.[a-zA-Z]{2,4}
 
 ## xargs 的使用
 
