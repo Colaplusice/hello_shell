@@ -1,4 +1,61 @@
 #!/usr/bin/env bash
 
+rm_files='/usr/local/lib/libasprintf.0.dylib
+  /usr/local/lib/libct.4.dylib
+  /usr/local/lib/libcurl.4.dylib
+  /usr/local/lib/libecpg.6.5.dylib
+  /usr/local/lib/libecpg_compat.3.5.dylib
+  /usr/local/lib/libevent-2.0.5.dylib
+  /usr/local/lib/libevent_core-2.0.5.dylib
+  /usr/local/lib/libevent_extra-2.0.5.dylib
+  /usr/local/lib/libevent_openssl-2.0.5.dylib
+  /usr/local/lib/libevent_pthreads-2.0.5.dylib
+  /usr/local/lib/libexslt.0.dylib
+  /usr/local/lib/libfreetype.6.dylib
+  /usr/local/lib/libgettextlib-0.18.1.dylib
+  /usr/local/lib/libgettextpo.0.dylib
+  /usr/local/lib/libgettextsrc-0.18.1.dylib
+  /usr/local/lib/libgif.4.1.6.dylib
+  /usr/local/lib/libgmp.10.dylib
+  /usr/local/lib/libhashkit.2.dylib
+  /usr/local/lib/libhistory.6.3.dylib
+  /usr/local/lib/libicudata.58.1.dylib
+  /usr/local/lib/libicui18n.58.1.dylib
+  /usr/local/lib/libicuio.58.1.dylib
+  /usr/local/lib/libicutest.58.1.dylib
+  /usr/local/lib/libicutu.58.1.dylib
+  /usr/local/lib/libicuuc.58.1.dylib
+  /usr/local/lib/libidn.11.dylib
+  /usr/local/lib/libintl.8.dylib
+  /usr/local/lib/libiodbc.2.dylib
+  /usr/local/lib/libiodbcinst.2.dylib
+  /usr/local/lib/libjpeg.7.dylib
+  /usr/local/lib/libmca_common_ompio.40.dylib
+  /usr/local/lib/libmca_common_sm.40.dylib
+  /usr/local/lib/libmcrypt.4.4.8.dylib
+  /usr/local/lib/libmemcached.11.dylib
+  /usr/local/lib/libmemcachedutil.2.dylib
+  /usr/local/lib/libmpi.40.dylib
+  /usr/local/lib/libompitrace.40.dylib
+  /usr/local/lib/libopen-pal.40.dylib
+  /usr/local/lib/libopen-rte.40.dylib
+  /usr/local/lib/libpgtypes.3.4.dylib
+  /usr/local/lib/libpng.3.dylib
+  /usr/local/lib/libpng12.0.dylib
+  /usr/local/lib/libpq.5.6.dylib
+  /usr/local/lib/libprotobuf-lite.15.dylib
+  /usr/local/lib/libprotobuf-lite.8.dylib
+  /usr/local/lib/libprotobuf.15.dylib
+  /usr/local/lib/libprotobuf.8.dylib
+  /usr/local/lib/libprotoc.15.dylib
+  /usr/local/lib/libprotoc.8.dylib
+  /usr/local/lib/libreadline.6.3.dylib
+  /usr/local/lib/libssh2.1.dylib
+  /usr/local/lib/libsybdb.5.dylib
+  /usr/local/lib/libtidy-0.99.0.dylib
+  /usr/local/lib/libtiff.3.dylib
+  /usr/local/lib/libtiffxx.3.dylib
+  /usr/local/lib/libxslt.1.dylib'
 
-awk '$2 ~ // {print $2,$4}' a.txt
+
+echo $rm_files

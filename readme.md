@@ -6,6 +6,8 @@
 
 * pgrep + name 查看进程id
 
+## 查看文件
+
 * cat /proc/pid/environ  查看进行的环境变量
 * cat -s file 压缩文件的空行
 * cat -n 显示行号
@@ -18,11 +20,8 @@ $? 表示最后一条命令的执行状态 检查命令是否正确执行
 * cat > 加信息加入         cat>> 追加写入
 
 * “2> /dev/null” 代表忽略掉错误提示信息
-
 * 查看所有环境变量  env
-
 * alias 为命令创建别名
-
 * 终端行数 和列数  tput cols  tput lines
 
 * 打印特殊字符用单引号
@@ -33,10 +32,17 @@ $? 表示最后一条命令的执行状态 检查命令是否正确执行
 * ls | cat -n > out.txt
 * 字符串长度  echo ${#string}
 * exit 0 代表成功 非0代表失败
-
 * 使用${}在字符串引用变量的值
 
+## less
+
+对长文件起到分页的作用
+head 打印头部，tail打印尾部
+
+
+
 ## 语法
+
 := 和=的区别
 
 结论：使用"="时，当变量不存在（未申明）才对其赋值
@@ -175,13 +181,23 @@ for proto_path in ${array[@]}
 
 || or
 
-字符串运算符
+## 字符串运算符
 
 -z 字符串长度是否为0,为0返回true
-
 -n检测字符串长度是否为0，不为0返回 true。
-
 if [$a] 字符串是否为空
+判断字符串是否为空 
+
+``` 判断字符串为空
+if [ ! -z "$pass_tc11" ]; then
+   echo "hi, I am not empty"
+fi
+if [ "pass_tc11" != "" ]; then
+if [ -n "$pass_tc11" ]; then
+
+
+```
+
 
 ### shift字段
 
@@ -274,7 +290,7 @@ echo {$name:3}
 fi
 ```
 
-#### linux 修改文件夹读写权限
+## linux 修改文件夹读写权限
 
 查看文件的详细信息 ls- l xxx.xx
 
@@ -454,15 +470,19 @@ sed -n '10p' $play_1
 tail -n +10 $play_1  | head -n 1
 ```
 
-打印除了前M行外的所有的行
+## tail head
 
+打印除了前M行外的所有的行
 tail -n  +m+1
 打印前m行  head -n m
 最后M行  tail -n m
 
+管道+xargs删除所有镜像
+docker ps -a |awk '{print $1}'|tail -n +2 |xargs docker rm 
+
 ## mysql shell
 
-```
+``` mysql
 mysql -u$USER -p$PASS $DB_NAME < $SQL_DIR
 # 导出数据
 mysqldump -uroot -p abc > abc.sql
@@ -507,10 +527,7 @@ awk '$2 ~ // {print $2,$4}' a.txt
 
 **~ 表示模式开始。// 中是模式。**
 
-
 os X find 加name
-
-
 find . -name "*-e" -exec rm '{}' +
 
 ## sed进行文本内容替换
@@ -548,8 +565,25 @@ find . -type f -name '*.csv' -exec sed -i '' s/91./92./ {} +
 
 find . -name '*.txt' -print0 | xargs -0 sed -i "" "s/form/forms/g"
 
-## 替换pipenv为pip
+## sed
 
+sed stream editor 流编辑器
+替换abc为acddc mac上为双引号  g是全局替换的意思
+cat myfile| sed "s/abc/acddc/g"
+多个匹配模式
+sed -e 's/This/That/; s/test/another test/' ./myfile
+mac 安装gnu-sed
+brew install --default-names gnu-sed 
+只打印替换的行
+sed -n  's/test/another test/p' myfile
+sed 's/ [^.]mobile phones[^.]\.//g' sentence.txt 
+正确的；
+sed -i ‘’ ’s/properties/propertysd/g’  a.txt
+原理
+
+### s/substitution_ pattern/replacement_string/g 。
+
+替换pipenv为pip
 sed 's/pipenv/pip/g' cat .gitlab-ci.yml |grep pip   
 
 ## 正则
@@ -594,6 +628,21 @@ for f in *.txt;
 done
 "${f/_*_/_}" is an application of bash parameter expansion: the (first) substring matching pattern _*_ is replaced with literal _, effectively cutting the middle token from the name.
 
+### 递归替换指定文件名
+
+find . -iname "*dbg*" -exec rename _dbg.txt .txt '{}' \;
+rename 需要安装  brew install rename
+
+方法1:
+全局替换
+shopt -s globstar nullglob
+rename -s fanjialiang2401 fjl2401 **/*
+
+方法2:
+find . -exec rename 's|fjl|fanjialiang|' {} +
+
+The -exec argument makes find execute rename for every matching file found. '{}' will be replaced with the path name of the file. The last token, \; is there only to mark the end of the exec expression.
+
 ## vscode插件
 
 brew install shfmt
@@ -603,3 +652,4 @@ shift+option+f
 
 将mp4的音频部分提取为mp3
 ffmpeg -i FILE.mp4 -acodec libmp3lame OUTPUTFILE.mp3
+shift+option+f
