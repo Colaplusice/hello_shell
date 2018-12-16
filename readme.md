@@ -73,6 +73,7 @@ fjl
 ```
 
 判断上条命令是否执行成功
+
 ```
 if [ $? -eq 0 ];
 
@@ -144,10 +145,7 @@ for i in $(kubectl get pod $*)
     echo $i
 done
 
-
-```
-    array_name=(value1 ... valuen)
-```
+`array_name=(value1 ... valuen)`
 
 ### 数组
 
@@ -163,7 +161,6 @@ for proto_path in ${array[@]}
 #### 关系运算符
 
 - -eq 检查两个数是否相等,-ne 检查两个数是否不相等
-  
 - -gt 左边数是否大于右边
 - -lt 左边数是否小于右边
 - -ge 左边数是否大于等于 右边
@@ -259,6 +256,10 @@ echo Password read.
 
 ## 文件
 
+### 文件校验
+
+md5 filename
+
 文件夹不存在则创建文件夹
 
 ```shell
@@ -289,6 +290,14 @@ else
 echo {$name:3}
 fi
 ```
+
+### 文件排序
+
+sort file1.txt file2.txt > sorted.txt 排序后输入一组文件
+sort -nrk 1 195_第十行.sh 根据第一列进行排序
+
+### 找出删除重复的行
+
 
 ## linux 修改文件夹读写权限
 
@@ -353,7 +362,8 @@ x 执行 1
 
 ## 时间和日期
 
--  输出date 日期 :date +"%Y_%m_%d_%H%M%S"
+- 输出date 日期 :date +"%Y_%m_%d_%H%M%S"
+
 
 ### 报错处理
 
@@ -362,15 +372,22 @@ x 执行 1
 字符split: 
 s='one_two_three_four_five'
 A="$(cut -d'_' -f2 <<<"$s")" result: two
-A="$(cut -d'_' -f2- <<<"$s") :two_three_four_five
+A="$(cut -d'_' -f2- <<<"$s")" :two_three_four_five
+
+字符串分割为数组
+
+```split in array
+STR="Sarah;Lisa;Jack;Rahul;Johnson"  #String with names
+IFS=';' read -ra NAMES <<< "$STR"    #Convert string to array
+
+#Print all names from array
+for i in "${NAMES[@]}"; do
+    echo $i
+done
+```
 
 判断两字符是否相等:
-
-12
-
-
 - 统计行数 wc -l file
-- 
 - 统计单词数  wc -w file
 - 统计字符数 wc -c file
 - wc  会打印出  行数  单词   字符数
@@ -597,12 +614,57 @@ ip正则
 
 ## xargs 的使用
 
+xargs默认将多行输出转换为一行输出
+-n 来限制每次调用命令时的参数个数
+cat example.txt |xargs
+cat example.txt| xargs -n 3   
 echo 'one two three' | xargs mkdir
 xargs - build and execute command lines from standard input
 xargs -0 rm  当以文件名作为命令行参数时，建议0作为文件名终结符。
 多重管道
-
 docker ps |grep mq |awk '{print $1}' | xargs docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+``` xargs 分割字符串 (仅适用于linux)
+$ echo "splitXsplit2Xsplit3Xsplit4" | xargs -d X
+Split1 split2 split3 split4
+```
+
+### tr means translate
+
+大写转换为小写
+echo "HELLO WHO IS THIS" | tr 'A-Z' 'a-z'
+将0-9 映射为 9-0
+echo 12345 | tr '0-9' '9876543210'  result:87654
+rot 13 加密
+echo "tr came, tr saw, tr conquered." | tr 'a-zA-Z' 'n-za-mN-ZA-M'
+将文件中的制表符转换为空格
+tr '\t' ' ' < file.txt
+-d delete 将输出的数字删除掉
+echo "Hello 123 world 456" | tr -d '0-9'
+echo hello 1 char 2 next 4 | tr -c '0-9' ' '  将 不在0-9中的字符替换为空格
+-d -c 同时出现 只会保留在给出set的字符
+echo hello 1 char 2 next 4 | tr -d -c '0-9 \n'
+
+cat multi_blanks.txt | tr -s '\n'  删除多余的换行符
+cat sum.txt | echo $[ $(tr '\n' '+' ) 0 ] 将\n替换为+ 并且将数字加起来
+
+计算文件中数字之和:
+去除字母，去除空格
+cat test.txt | tr -d [a-z] | echo "total: $[$(tr ' ' '+')]"
+
+tr的字符set
+ alnum：字母和数字。
+ alpha：字母。
+ cntrl：控制（非打印）字符。
+ digit：数字。
+ graph：图形字符。
+ lower：小写字母。
+ print：可打印字符。
+ punct：标点符号。
+ space：空白字符。
+ upper：大写字母。
+ xdigit：十六进制字符
+
 
 ### 和用户交互
 
@@ -628,7 +690,7 @@ for f in *.txt;
 done
 "${f/_*_/_}" is an application of bash parameter expansion: the (first) substring matching pattern _*_ is replaced with literal _, effectively cutting the middle token from the name.
 
-### 递归替换指定文件名
+### find查找操作文件
 
 find . -iname "*dbg*" -exec rename _dbg.txt .txt '{}' \;
 rename 需要安装  brew install rename
@@ -642,6 +704,8 @@ rename -s fanjialiang2401 fjl2401 **/*
 find . -exec rename 's|fjl|fanjialiang|' {} +
 
 The -exec argument makes find execute rename for every matching file found. '{}' will be replaced with the path name of the file. The last token, \; is there only to mark the end of the exec expression.
+
+find . -type f -name "*.sh" -print0 | xargs -0 wc –l  查找目录下python文件总行数
 
 ## vscode插件
 
