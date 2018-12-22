@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-'/usr/local/lib/libasprintf.0.dylib
+/usr/local/lib/libasprintf.0.dylib
 /usr/local/lib/libct.4.dylib
 /usr/local/lib/libcurl.4.dylib
 /usr/local/lib/libecpg.6.5.dylib
@@ -54,11 +54,4 @@
   /usr/local/lib/libtidy-0.99.0.dylib
   /usr/local/lib/libtiff.3.dylib
   /usr/local/lib/libtiffxx.3.dylib
-  /usr/local/lib/libxslt.1.dylib'
-
-$a='sd'
-$b='sdd'
-
-if [[ $a == $b ]]; then
-	echo 'asd'
-fi
+  /usr/local/lib/libxslt.1.dylib
