@@ -153,6 +153,7 @@ fi
 for proto_path in ${array[@]}
 
 ```
+ 数组长度: ${#ArrayName[@]}
 
 #### 关系运算符
 
@@ -344,6 +345,7 @@ x 执行 1
 ## 字符和文本
 
 字符split: 
+
 s='one_two_three_four_five'
 A="$(cut -d'_' -f2 <<<"$s")" result: two
 A="$(cut -d'_' -f2- <<<"$s") :two_three_four_five
@@ -354,7 +356,6 @@ A="$(cut -d'_' -f2- <<<"$s") :two_three_four_five
 
 
 - 统计行数 wc -l file
-- 
 - 统计单词数  wc -w file
 - 统计字符数 wc -c file
 - wc  会打印出  行数  单词   字符数
@@ -603,3 +604,16 @@ shift+option+f
 
 将mp4的音频部分提取为mp3
 ffmpeg -i FILE.mp4 -acodec libmp3lame OUTPUTFILE.mp3
+
+## commands
+
+1. catch error message :error=$(kubectl get pods -l app=fennec 2>&1 1>/dev/null)
+2. 地址是否存在
+    ```
+    if [ -f "$file" ]
+    then
+    echo "$file found."
+    else
+    echo "$file not found."
+    fi
+    ```

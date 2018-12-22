@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
+$a='sd'
+$b='sdd'
 
-awk '$2 ~ // {print $2,$4}' a.txt
+if [[ $a == $b ]]; then
+	echo 'asd'
+fi
