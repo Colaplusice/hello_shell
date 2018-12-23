@@ -404,6 +404,8 @@ head a.txt 前10行
 cut -c2-5 range_fields.txt 打印第二个到第五个字符
 cut -c -2 rang_field.txt  打印前2个字符
 cut -b  以字节来计数
+得到最后一项
+echo 'maps.google.com' | rev | cut -d'.' -f 1 | rev
 
 ### grep 正则匹配
 
@@ -655,23 +657,22 @@ cat sum.txt | echo $[ $(tr '\n' '+' ) 0 ] 将\n替换为+ 并且将数字加起�
 cat test.txt | tr -d [a-z] | echo "total: $[$(tr ' ' '+')]"
 
 tr的字符set
- alnum：字母和数字。
- alpha：字母。
- cntrl：控制（非打印）字符。
- digit：数字。
- graph：图形字符。
- lower：小写字母。
- print：可打印字符。
- punct：标点符号。
- space：空白字符。
- upper：大写字母。
- xdigit：十六进制字符
+- alnum：字母和数字。
+- alpha：字母。
+- cntrl：控制（非打印）字符。
+- digit：数字。
+- graph：图形字符。
+- lower：小写字母。
+- print：可打印字符。
+- punct：标点符号。
+- space：空白字符。
+- upper：大写字母。
+- xdigit：十六进制字符
 
 
 ### 和用户交互
 
 read -p " What folder should be backed up: " folder  读取存入folder变量
-
 
 
 ### chown 更改文件的用户或者组
@@ -682,6 +683,23 @@ chown root:staff/u   change its group to staff
 
 chown -hR root/u  change the owner of /u and subfile to root      更改/u 下的所有文件的归属权
 
+## 捕获终端输出和错误信息
+
+1. 终端输出
+    ```
+    a=$(find /Users/icecola/.ssh -name  *.pub -print -quit)
+    echo $a
+    ```
+2. 错误信息 `a=$(asd 2>&1) echo $a`
+3. 终端输出转换为数组: 
+    ```
+    a=$(find /Users/icecola/.ssh -name *.pub -print -quit)
+    for each in "${a[@]}"; do
+	echo $each
+    done
+    ```
+
+  
 ## 骚操作
 
 ### 批量替换文件格式，后缀，重命名
@@ -708,6 +726,7 @@ find . -exec rename 's|fjl|fanjialiang|' {} +
 The -exec argument makes find execute rename for every matching file found. '{}' will be replaced with the path name of the file. The last token, \; is there only to mark the end of the exec expression.
 
 find . -type f -name "*.sh" -print0 | xargs -0 wc –l  查找目录下python文件总行数
+
 
 ## vscode插件
 

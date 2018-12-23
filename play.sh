@@ -1,9 +1,10 @@
 #!/bin/bash
 
-STR="Sarah;Lisa;Jack;Rahul;Johnson"  #String with names
-IFS=';' read -ra NAMES <<< "$STR"    #Convert string to array
 
-#Print all names from array
-for i in "${NAMES[@]}"; do
-    echo $i
-done
+
+pub_key_path=$(find /Users/icecola/.ssh -name *.pub -print -quit)
+
+echo "${pub_key_path}"
+file_name=$(cut -d '/' -f2 | "$pub_key_path")
+
+echo "$file_name"
