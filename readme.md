@@ -292,10 +292,14 @@ echo {$name:3}
 fi
 ```
 
-### 文件排序
+### sort 文件排序
 
 sort file1.txt file2.txt > sorted.txt 排序后输入一组文件
 sort -nrk 1 195_第十行.sh 根据第一列进行排序
+
+sort -n 将字符串转数字 
+sort -r 指定顺序为从大到小 
+sort -k 2 指定第二个字段作为排序判断标准
 
 ### 找出删除重复的行
 
@@ -404,8 +408,9 @@ head a.txt 前10行
 cut -c2-5 range_fields.txt 打印第二个到第五个字符
 cut -c -2 rang_field.txt  打印前2个字符
 cut -b  以字节来计数
-得到最后一项
+通过revert来得到最后一项
 echo 'maps.google.com' | rev | cut -d'.' -f 1 | rev
+echo $s |rev |cut -d '_' -f 1 |rev
 
 ### grep 正则匹配
 
@@ -442,6 +447,7 @@ grep main . -r -exclude-dir CVS  排除路径
 -B 打印匹配结果之前的行  seq 10 -1 1 |grep 5 -B 3
 -R 递归搜索
 -n 
+-P 
 
 ## 管道
 
@@ -474,21 +480,36 @@ paste file1.txt file2.txt -d ","  将三个文件的字符并起来
 
 ~= 判断子字符串的包含关系
 
- ```
+ ```shell
  if [[ "$a3" =~ "$a1" ]]; then
    echo "$是a1是$a3的子串！"
    else
    echo "$不是a1不是$a3的子串！"
 ```
 
-
 ## leetcode
 
 打印文件第10行
-```
+
+```shell
 seq 10 | tail -n +10
 sed -n '10p' $play_1
 tail -n +10 $play_1  | head -n 1
+```
+
+统计单词数目
+
+egrep 把文件转换为单词流，每行一个单词，统计单词出现的频率
+然后管道awk。将单词写入dict 统计完成后，调用END{},打印各单词数量
+
+```shell
+egrep -o "\b[[:alpha:]]+\b" $filename | \
+awk '{ count[$0]++ }
+END{ printf("%-14s%s\n","Word","Count") ;
+for(ind in count)
+{ printf("%-14s%d\n",ind,count[ind]);
+}
+}
 ```
 
 ## tail head
